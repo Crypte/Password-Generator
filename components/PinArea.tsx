@@ -13,6 +13,8 @@ import { ArrowDown, Check, Copy } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import { Progress } from "./ui/progress";
+
 export function PinArea() {
   const [name, setName] = useState("");
   const [domain, setDomain] = useState("");
@@ -54,6 +56,15 @@ export function PinArea() {
   const handleValueChange = (value: string) => {
     setPinSize(value);
   };
+
+  const progressValue = secret.length * 5;
+  let progressColor = "bg-red-600 transition-colors";
+
+  if (progressValue > 70) {
+    progressColor = "bg-green-600";
+  } else if (progressValue > 30) {
+    progressColor = "bg-orange-600";
+  }
 
   return (
     <Card>
@@ -113,6 +124,10 @@ export function PinArea() {
               onChange={(e) => setSecret(e.target.value)}
               required
             />
+          </div>
+          <div className="flex flex-col space-y-2">
+            <Label htmlFor="secret">Strong bar</Label>
+            <Progress indicatorColor={progressColor} value={progressValue} />
           </div>
           <div className="w-full flex justify-center items-center">
             <ArrowDown className="w-4 h-4" />

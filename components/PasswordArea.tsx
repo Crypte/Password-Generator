@@ -105,7 +105,7 @@ export function PasswordArea() {
           </div>
           <div className="flex flex-col space-y-2">
             <Label htmlFor="secret">Strong bar</Label>
-            <Progress className={progressColor} value={progressValue} />
+            <Progress indicatorColor={progressColor} value={progressValue} />
           </div>
           <div className="w-full flex justify-center items-center">
             <ArrowDown className="w-4 h-4" />
