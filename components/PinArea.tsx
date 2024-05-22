@@ -58,12 +58,12 @@ export function PinArea() {
   };
 
   const progressValue = secret.length * 5;
-  let progressColor = "bg-red-600 transition-colors";
+  let progressColor = "bg-red-500 transition-colors";
 
   if (progressValue > 70) {
-    progressColor = "bg-green-600";
+    progressColor = "bg-green-500";
   } else if (progressValue > 30) {
-    progressColor = "bg-orange-600";
+    progressColor = "bg-orange-500";
   }
 
   return (

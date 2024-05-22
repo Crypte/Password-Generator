@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { passwordStrength } from "check-password-strength";
 import CryptoJS from "crypto-js";
 import { ArrowDown, Check, Copy } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -51,15 +52,16 @@ export function PasswordArea() {
     }, 2000);
   };
 
-  const progressValue = secret.length * 5;
-  let progressColor = "bg-red-600 transition-colors";
+  let entropyvalue = passwordStrength(secret).id * 25;
+  let strongvalue = passwordStrength(secret).value;
+  let progressValue = entropyvalue;
 
-  if (progressValue > 70) {
-    progressColor = "bg-green-600";
-  } else if (progressValue > 30) {
-    progressColor = "bg-orange-600";
+  let progressColor = "bg-red-500 transition-colors";
+  if (progressValue >= 70) {
+    progressColor = "bg-green-500";
+  } else if (progressValue >= 30) {
+    progressColor = "bg-orange-500";
   }
-
   return (
     <Card>
       <CardHeader>
@@ -74,6 +76,7 @@ export function PasswordArea() {
         <div className="grid w-full items-center gap-6">
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="name">Your Name</Label>
+
             <Input
               id="name"
               placeholder="Eric Dupont"
@@ -104,8 +107,8 @@ export function PasswordArea() {
             />
           </div>
           <div className="flex flex-col space-y-2">
-            <Label htmlFor="secret">Strong bar</Label>
             <Progress indicatorColor={progressColor} value={progressValue} />
+            <Label htmlFor="secret">{strongvalue}</Label>
           </div>
           <div className="w-full flex justify-center items-center">
             <ArrowDown className="w-4 h-4" />
@@ -118,12 +121,13 @@ export function PasswordArea() {
                 placeholder="Password computed"
                 value={password}
                 readOnly
+                disabled={entropyvalue < 70 || password === ""}
               />
               <Button
                 size={"icon"}
                 className="p-3"
                 onClick={handleClick}
-                disabled={password === ""}
+                disabled={entropyvalue < 70 || password === ""}
               >
                 {isClicked ? (
                   <Check className="h-4 w-4" />
