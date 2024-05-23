@@ -45,10 +45,6 @@ export function PasswordArea() {
     navigator.clipboard.writeText(password);
   }
 
-  const handleClick = () => {
-    copyToClipboard();
-  };
-
   let entropyvalue = passwordStrength(secret).id * 33.33;
   console.log(entropyvalue);
   let strongvalue = passwordStrength(secret).value;
@@ -63,11 +59,11 @@ export function PasswordArea() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Generate your password</CardTitle>
+        <CardTitle>Password Generation</CardTitle>
         <CardDescription>
-          The pin is generated from the combination of your name, the domain of
-          the website and your secret code. Your password will be the resulted
-          hash encoded in Base64
+          Your password will be the first 20 caracters of the resulted hash
+          encoded in Base64 of your name, the domain of the website and your
+          secret code
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -124,13 +120,14 @@ export function PasswordArea() {
                 placeholder="Password computed"
                 value={password}
                 readOnly
-                disabled={entropyvalue < 70 || password === ""}
+                disabled={entropyvalue < 90 || password === ""}
               />
               <Button
                 size={"icon"}
                 className="p-3"
-                disabled={entropyvalue < 70 || password === ""}
+                disabled={entropyvalue < 90 || password === ""}
                 onClick={() => {
+                  copyToClipboard();
                   toast({
                     title: "Password copied to the clipboard",
                     description: "Use it wisely!",
