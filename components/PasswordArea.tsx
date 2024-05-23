@@ -9,10 +9,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/components/ui/use-toast";
 import { passwordStrength } from "check-password-strength";
 import CryptoJS from "crypto-js";
-import { ArrowDown, Check, Copy } from "lucide-react";
+import { ArrowDown, Copy } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
@@ -21,7 +23,7 @@ export function PasswordArea() {
   const [domain, setDomain] = useState("");
   const [secret, setSecret] = useState("");
   const [password, setPassword] = useState("");
-  const [isClicked, setIsClicked] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const generatePassword = () => {
@@ -44,22 +46,18 @@ export function PasswordArea() {
   }
 
   const handleClick = () => {
-    setIsClicked(true);
     copyToClipboard();
-
-    setTimeout(() => {
-      setIsClicked(false);
-    }, 2000);
   };
 
-  let entropyvalue = passwordStrength(secret).id * 25;
+  let entropyvalue = passwordStrength(secret).id * 33.33;
+  console.log(entropyvalue);
   let strongvalue = passwordStrength(secret).value;
   let progressValue = entropyvalue;
 
-  let progressColor = "bg-red-500 transition-colors";
-  if (progressValue >= 70) {
+  let progressColor = "bg-red-500";
+  if (progressValue > 90) {
     progressColor = "bg-green-500";
-  } else if (progressValue >= 30) {
+  } else if (progressValue > 60) {
     progressColor = "bg-orange-500";
   }
   return (
@@ -108,7 +106,12 @@ export function PasswordArea() {
           </div>
           <div className="flex flex-col space-y-2">
             <Progress indicatorColor={progressColor} value={progressValue} />
-            <Label htmlFor="secret">{strongvalue}</Label>
+            {!secret && <Label htmlFor="secret"></Label>}
+            {secret && (
+              <Badge variant={"outline"} className="w-fit">
+                {strongvalue}
+              </Badge>
+            )}
           </div>
           <div className="w-full flex justify-center items-center">
             <ArrowDown className="w-4 h-4" />
@@ -126,14 +129,16 @@ export function PasswordArea() {
               <Button
                 size={"icon"}
                 className="p-3"
-                onClick={handleClick}
                 disabled={entropyvalue < 70 || password === ""}
+                onClick={() => {
+                  toast({
+                    title: "Password copied to the clipboard",
+                    description: "Use it wisely!",
+                    variant: "success",
+                  });
+                }}
               >
-                {isClicked ? (
-                  <Check className="h-4 w-4" />
-                ) : (
-                  <Copy className="h-4 w-4" />
-                )}
+                <Copy className="h-4 w-4" />
               </Button>
             </div>
           </div>
