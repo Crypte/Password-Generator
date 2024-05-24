@@ -39,7 +39,7 @@ export function Generation() {
   useEffect(() => {
     const generatePassword = () => {
       if (name && domain && secret) {
-        const combinedString = `${name}${domain}${secret}`;
+        const combinedString = `${name}${domain}${secret}${numberIteration}`;
         const hashedString = CryptoJS.SHA512(combinedString);
         const pinString = hashedString.toString(CryptoJS.enc.Hex);
         const PasswordString = hashedString.toString(CryptoJS.enc.Base64);
@@ -55,7 +55,7 @@ export function Generation() {
     };
 
     generatePassword();
-  }, [name, domain, secret, pinSize]);
+  }, [name, domain, secret, pinSize, numberIteration]);
 
   function copyToClipboard() {
     navigator.clipboard.writeText(password);
