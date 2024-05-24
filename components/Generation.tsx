@@ -144,6 +144,9 @@ export function Generation() {
                       value={password}
                       readOnly
                       disabled={entropyvalue < 90 || password === ""}
+                      onFocus={(e) => {
+                        (e.target as HTMLInputElement).select();
+                      }}
                     />
                     <Button
                       size={"icon"}
@@ -250,6 +253,9 @@ export function Generation() {
                       value={pin}
                       readOnly
                       disabled={entropyvalue < 90 || pin === ""}
+                      onFocus={(e) => {
+                        (e.target as HTMLInputElement).select();
+                      }}
                     />
 
                     <Button
