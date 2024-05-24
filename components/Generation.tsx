@@ -11,6 +11,12 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useToast } from "@/components/ui/use-toast";
 import { passwordStrength } from "check-password-strength";
 import CryptoJS from "crypto-js";
@@ -27,12 +33,13 @@ export function Generation() {
   const [password, setPassword] = useState("");
   const [pin, setPin] = useState("");
   const [pinSize, setPinSize] = useState("4");
+  const [numberIteration, setNumberIteration] = useState("0");
   const { toast } = useToast();
 
   useEffect(() => {
     const generatePassword = () => {
       if (name && domain && secret) {
-        const combinedString = `${name}${domain}${secret}`;
+        const combinedString = `${name}${domain}${secret}${numberIteration}`;
         const hashedString = CryptoJS.SHA256(combinedString).toString(
           CryptoJS.enc.Base64
         );
@@ -48,7 +55,7 @@ export function Generation() {
     };
 
     generatePassword();
-  }, [name, domain, secret, pinSize]);
+  }, [name, domain, secret, pinSize, numberIteration]);
 
   function copyToClipboard() {
     navigator.clipboard.writeText(password);
@@ -148,21 +155,30 @@ export function Generation() {
                         (e.target as HTMLInputElement).select();
                       }}
                     />
-                    <Button
-                      size={"icon"}
-                      className="p-3"
-                      disabled={entropyvalue < 90 || password === ""}
-                      onClick={() => {
-                        copyToClipboard();
-                        toast({
-                          title: "Password copied to the clipboard",
-                          description: "Use it wisely!",
-                          variant: "success",
-                        });
-                      }}
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size={"icon"}
+                            className="p-3"
+                            disabled={entropyvalue < 90 || password === ""}
+                            onClick={() => {
+                              copyToClipboard();
+                              toast({
+                                title: "Password copied to the clipboard",
+                                description: "Use it wisely!",
+                                variant: "success",
+                              });
+                            }}
+                          >
+                            <Copy className="h-4 w-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Copy to clipboard</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
                 </div>
               </div>
@@ -257,22 +273,30 @@ export function Generation() {
                         (e.target as HTMLInputElement).select();
                       }}
                     />
-
-                    <Button
-                      size={"icon"}
-                      className="p-3"
-                      disabled={entropyvalue < 90 || pin === ""}
-                      onClick={() => {
-                        copyToClipboard();
-                        toast({
-                          title: "Pin copied to the clipboard",
-                          description: "Use it wisely!",
-                          variant: "success",
-                        });
-                      }}
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size={"icon"}
+                            className="p-3"
+                            disabled={entropyvalue < 90 || pin === ""}
+                            onClick={() => {
+                              copyToClipboard();
+                              toast({
+                                title: "Pin copied to the clipboard",
+                                description: "Use it wisely!",
+                                variant: "success",
+                              });
+                            }}
+                          >
+                            <Copy className="h-4 w-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Copy to clipboard</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
                 </div>
               </div>
