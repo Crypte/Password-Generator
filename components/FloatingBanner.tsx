@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef } from "react";
+import { useRef } from "react";
 
-export const FloatingBanner: React.FC = () => {
+export const FloatingBanner = () => {
   const bannerRef = useRef<HTMLDivElement>(null);
 
   const handleDismiss = () => {
@@ -19,7 +19,7 @@ export const FloatingBanner: React.FC = () => {
       <p className="text-sm font-medium">
         Be sure to be on : {""}
         <a href="#" className="inline-block underline">
-          www.hello.com
+          https://password-generator-seven-lac.vercel.app/
         </a>
       </p>
 

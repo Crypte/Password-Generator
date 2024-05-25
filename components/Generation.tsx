@@ -20,7 +20,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { passwordStrength } from "check-password-strength";
 import CryptoJS from "crypto-js";
-import { ArrowDown, Copy } from "lucide-react";
+import { ArrowDown, CircleUser, Copy, Globe, KeyRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
@@ -77,7 +77,7 @@ export function Generation() {
   }
   return (
     <>
-      <Tabs defaultValue="password" className="lg:max-w-[600px] relative">
+      <Tabs defaultValue="password" className="max-w-[500px] relative">
         <div className="absolute z-[-1] w-full h-full rounded-2xl bg-gradient-to-tl from-purple-400 to-red-400 blur-3xl dark:opacity-40 opacity-60 left-1/2 transform -translate-x-1/2" />
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="password">Password</TabsTrigger>
@@ -99,6 +99,7 @@ export function Generation() {
                   <Label htmlFor="name">Your Name</Label>
 
                   <Input
+                    startIcon={CircleUser}
                     id="name"
                     placeholder="Eric Dupont"
                     value={name}
@@ -109,6 +110,7 @@ export function Generation() {
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="domain">The domain of the website</Label>
                   <Input
+                    startIcon={Globe}
                     id="domain"
                     placeholder="google.com"
                     value={domain}
@@ -119,6 +121,7 @@ export function Generation() {
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="secret">Your secret code</Label>
                   <Input
+                    startIcon={KeyRound}
                     id="secret"
                     placeholder="Mysecret"
                     type="password"
@@ -216,6 +219,7 @@ export function Generation() {
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="name">Your Name</Label>
                   <Input
+                    startIcon={CircleUser}
                     id="name"
                     placeholder="Eric Dupont"
                     value={name}
@@ -226,6 +230,7 @@ export function Generation() {
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="domain">The domain of the website</Label>
                   <Input
+                    startIcon={Globe}
                     id="domain"
                     placeholder="google.com"
                     value={domain}
@@ -236,6 +241,7 @@ export function Generation() {
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="secret">Your secret code</Label>
                   <Input
+                    startIcon={KeyRound}
                     id="secret"
                     placeholder="Mysecret"
                     type="password"

@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import { ThemeProvider } from "@/components/Theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
@@ -26,8 +25,6 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-
           {children}
           <Toaster />
         </ThemeProvider>
