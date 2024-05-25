@@ -75,6 +75,7 @@ export function Generation() {
   } else if (progressValue > 60) {
     progressColor = "bg-orange-500";
   }
+
   return (
     <>
       <Tabs defaultValue="password" className="max-w-[500px] relative">
@@ -114,10 +115,13 @@ export function Generation() {
                     id="domain"
                     placeholder="google.com"
                     value={domain}
-                    onChange={(e) => setDomain(e.target.value)}
+                    onChange={(e) => {
+                      setDomain(e.target.value);
+                    }}
                     required
-                  />
+                  ></Input>
                 </div>
+
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="secret">Your secret code</Label>
                   <Input
@@ -146,7 +150,6 @@ export function Generation() {
                   <ArrowDown className="w-4 h-4" />
                 </div>
                 <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="result">Your password</Label>
                   <div className="flex gap-2">
                     <Input
                       id="result"
@@ -158,6 +161,7 @@ export function Generation() {
                         (e.target as HTMLInputElement).select();
                       }}
                     />
+
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>

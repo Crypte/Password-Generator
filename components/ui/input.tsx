@@ -1,16 +1,16 @@
-import * as React from "react";
-
 import { cn } from "@/lib/utils";
 import { Eye, EyeOff, Lock, LucideIcon } from "lucide-react";
+import * as React from "react";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   startIcon?: LucideIcon;
   endIcon?: LucideIcon;
+  urllogo?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, startIcon, endIcon, ...props }, ref) => {
+  ({ className, type, startIcon, endIcon, urllogo, ...props }, ref) => {
     const StartIcon = startIcon;
     const EndIcon = endIcon;
     const [show, setShow] = React.useState(false);
@@ -74,6 +74,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
+
 Input.displayName = "Input";
 
 export { Input };
