@@ -6,7 +6,7 @@ export default function Home() {
     <>
       <Navbar />
       <main className="container">
-        <div className="flex flex-col items-center justify-center mt-16">
+        <div className="flex flex-col items-center justify-center mt-20">
           <Generation />
         </div>
       </main>

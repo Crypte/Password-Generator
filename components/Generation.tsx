@@ -18,7 +18,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { passwordStrength } from "check-password-strength";
 import CryptoJS from "crypto-js";
-import { ArrowDown, CircleUser, Copy, Globe, KeyRound } from "lucide-react";
+import { CircleUser, Copy, Globe, KeyRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
@@ -37,6 +37,8 @@ export function Generation() {
   const [name, setName] = useState("");
   const [domain, setDomain] = useState("");
   const [secret, setSecret] = useState("");
+  const [encodedHexString, setencodedHexString] = useState("");
+  const [encodedBaseString, setencodedBaseString] = useState("");
   const [result, setResult] = useState("");
   const [type, setType] = useState("password");
   const { toast } = useToast();
@@ -46,21 +48,18 @@ export function Generation() {
       if (name && domain && secret) {
         const combinedString = `${name}${domain}${secret}`;
         const hashedString = CryptoJS.SHA512(combinedString);
-
+        const encodedHexString = hashedString.toString(CryptoJS.enc.Hex);
+        setencodedHexString(encodedHexString);
+        const encodedBaseString = hashedString.toString(CryptoJS.enc.Base64);
+        setencodedBaseString(encodedBaseString);
+        const numericHash = encodedHexString.replace(/\D/g, "");
         if (type === "password") {
-          const PasswordString = hashedString.toString(CryptoJS.enc.Base64);
-          setResult(PasswordString.substring(0, 20));
+          setResult(encodedBaseString.substring(0, 20));
         } else if (type === "pin4") {
-          const pinString = hashedString.toString(CryptoJS.enc.Hex);
-          const numericHash = pinString.replace(/\D/g, "");
           setResult(numericHash.substring(0, 4));
         } else if (type === "pin6") {
-          const pinString = hashedString.toString(CryptoJS.enc.Hex);
-          const numericHash = pinString.replace(/\D/g, "");
           setResult(numericHash.substring(0, 6));
         } else if (type === "pin8") {
-          const pinString = hashedString.toString(CryptoJS.enc.Hex);
-          const numericHash = pinString.replace(/\D/g, "");
           setResult(numericHash.substring(0, 8));
         }
       } else {
@@ -87,7 +86,7 @@ export function Generation() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative grid grid-cols-2 gap-4 max-lg:grid-cols-1 ">
       <div className="absolute z-[-1] w-full h-full rounded-2xl bg-gradient-to-tl from-purple-600 to-red-400 blur-3xl dark:opacity-40 opacity-60 left-1/2 transform -translate-x-1/2" />
 
       <Card className="max-w-[500px]">
@@ -167,8 +166,88 @@ export function Generation() {
                 </Badge>
               )}
             </div>
-            <div className="w-full flex justify-center items-center">
-              <ArrowDown className="w-4 h-4" />
+          </div>
+          <div className="flex flex-col space-y-1.5 lg:hidden">
+            <Label htmlFor="secret">Result</Label>
+            <div className="flex gap-2">
+              <Input
+                id="result"
+                placeholder="Complete the fields to generate"
+                value={result}
+                readOnly
+                disabled={entropyvalue < 90 || result === ""}
+                onFocus={(e) => {
+                  (e.target as HTMLInputElement).select();
+                }}
+              />
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size={"icon"}
+                      className="p-3"
+                      disabled={entropyvalue < 90 || result === ""}
+                      onClick={() => {
+                        copyToClipboard();
+                        toast({
+                          title: "Password copied to the clipboard",
+                          description: "Use it wisely!",
+                          variant: "success",
+                        });
+                      }}
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Copy to clipboard</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      <Card className="max-w-[500px] h-fit max-lg:hidden">
+        <CardHeader>
+          <CardTitle>Result</CardTitle>
+          <CardDescription>
+            Generate a credential based on your secret code, your name and the
+            domain of the website
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid w-full items-center gap-6">
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="secret">Hash output Hex</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="result"
+                  placeholder="Hash output Hex"
+                  value={encodedHexString}
+                  readOnly
+                  disabled
+                  onFocus={(e) => {
+                    (e.target as HTMLInputElement).select();
+                  }}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="secret">Hash output Base64</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="result"
+                  placeholder="Hash output Base64"
+                  value={encodedBaseString}
+                  readOnly
+                  disabled
+                  onFocus={(e) => {
+                    (e.target as HTMLInputElement).select();
+                  }}
+                />
+              </div>
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="secret">Result</Label>
