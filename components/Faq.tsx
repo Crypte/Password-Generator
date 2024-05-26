@@ -8,8 +8,8 @@ import {
 export const Faq = () => {
   const questionsAndAnswers = [
     {
-      question: "Comment sont sélectionné les outils ?",
-      answer: "React is a JavaScript library for building user interfaces.",
+      question: "What if the website goes down ?",
+      answer: "",
     },
     {
       question: "Le site génère t-il des revenus ?",
