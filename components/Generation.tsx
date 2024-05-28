@@ -19,7 +19,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { passwordStrength } from "check-password-strength";
 import CryptoJS from "crypto-js";
 import { CircleUser, Copy, Globe, KeyRound } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FloatingBanner } from "./FloatingBanner";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
@@ -64,6 +64,10 @@ export function Generation() {
       copyToClipboard();
     }
   };
+
+  useEffect(() => {
+    setResult("");
+  }, [name, domain, secret]);
 
   function copyToClipboard() {
     navigator.clipboard.writeText(result);
@@ -197,7 +201,7 @@ export function Generation() {
                     generatePassword();
                   }}
                 >
-                  Generate & Copy
+                  Gen & Copy
                 </Button>
 
                 <TooltipProvider>
