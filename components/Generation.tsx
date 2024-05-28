@@ -19,7 +19,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { passwordStrength } from "check-password-strength";
 import CryptoJS from "crypto-js";
 import { CircleUser, Copy, Globe, KeyRound } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FloatingBanner } from "./FloatingBanner";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
@@ -38,41 +38,48 @@ export function Generation() {
   const [name, setName] = useState("");
   const [domain, setDomain] = useState("");
   const [secret, setSecret] = useState("");
-  const [encodedHexString, setencodedHexString] = useState("");
-  const [encodedBaseString, setencodedBaseString] = useState("");
   const [result, setResult] = useState("");
   const [type, setType] = useState("password");
   const { toast } = useToast();
 
-  useEffect(() => {
-    const generatePassword = () => {
-      if (name && domain && secret) {
-        const combinedString = `${name}${domain}${secret}`;
-        const hashedString = CryptoJS.SHA512(combinedString);
-        const encodedHexString = hashedString.toString(CryptoJS.enc.Hex);
-        setencodedHexString(encodedHexString);
-        const encodedBaseString = hashedString.toString(CryptoJS.enc.Base64);
-        setencodedBaseString(encodedBaseString);
-        const numericHash = encodedHexString.replace(/\D/g, "");
-        if (type === "password") {
-          setResult(encodedBaseString.substring(0, 20));
-        } else if (type === "pin4") {
-          setResult(numericHash.substring(0, 4));
-        } else if (type === "pin6") {
-          setResult(numericHash.substring(0, 6));
-        } else if (type === "pin8") {
-          setResult(numericHash.substring(0, 8));
-        }
-      } else {
-        setResult("");
+  const generatePassword = () => {
+    if (name && domain && secret && type) {
+      const hashedString = CryptoJS.PBKDF2(secret, `${name}${domain}`, {
+        keySize: 256 / 32,
+        iterations: 100000,
+      });
+      console.log(hashedString.toString());
+      const encodedHexString = hashedString.toString(CryptoJS.enc.Hex);
+      const encodedBaseString = hashedString.toString(CryptoJS.enc.Base64);
+      const numericHash = encodedHexString.replace(/\D/g, "");
+      if (type === "password") {
+        setResult(encodedBaseString.slice(0, 20));
+      } else if (type === "pin4") {
+        setResult(numericHash.slice(0, 4));
+      } else if (type === "pin6") {
+        setResult(numericHash.slice(0, 6));
+      } else if (type === "pin8") {
+        setResult(numericHash.slice(0, 8));
       }
-    };
-
-    generatePassword();
-  }, [name, domain, secret, type]);
+      copyToClipboard();
+    }
+  };
 
   function copyToClipboard() {
     navigator.clipboard.writeText(result);
+    if (type === "password") {
+      toast({
+        title: "Password copied to the clipboard",
+        description: "Use it wisely!",
+        variant: "success",
+      });
+    } else {
+      toast({
+        title: "Pin copied to the clipboard",
+        description: "Use it wisely!",
+        variant: "success",
+      });
+    }
   }
 
   let entropyvalue = passwordStrength(secret).id * 33.33;
@@ -174,6 +181,8 @@ export function Generation() {
                   className="overflow-ellipsis"
                   id="result"
                   placeholder="Complete to generate"
+                  type="password"
+                  startIcon={KeyRound}
                   value={result}
                   readOnly
                   disabled={entropyvalue < 90 || result === ""}
@@ -181,6 +190,15 @@ export function Generation() {
                     (e.target as HTMLInputElement).select();
                   }}
                 />
+
+                <Button
+                  disabled={entropyvalue < 90}
+                  onClick={() => {
+                    generatePassword();
+                  }}
+                >
+                  Generate & Copy
+                </Button>
 
                 <TooltipProvider>
                   <Tooltip>
@@ -191,11 +209,6 @@ export function Generation() {
                         disabled={entropyvalue < 90 || result === ""}
                         onClick={() => {
                           copyToClipboard();
-                          toast({
-                            title: "Password copied to the clipboard",
-                            description: "Use it wisely!",
-                            variant: "success",
-                          });
                         }}
                       >
                         <Copy className="h-4 w-4" />
