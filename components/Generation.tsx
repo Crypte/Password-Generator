@@ -48,43 +48,39 @@ export function Generation() {
         keySize: 256 / 32,
         iterations: 100000,
       });
-      console.log(hashedString.toString());
       const encodedHexString = hashedString.toString(CryptoJS.enc.Hex);
       const encodedBaseString = hashedString.toString(CryptoJS.enc.Base64);
       const numericHash = encodedHexString.replace(/\D/g, "");
+
+      let generatedResult = "";
       if (type === "password") {
-        setResult(encodedBaseString.slice(0, 20));
+        generatedResult = encodedBaseString.slice(0, 20);
       } else if (type === "pin4") {
-        setResult(numericHash.slice(0, 4));
+        generatedResult = numericHash.slice(0, 4);
       } else if (type === "pin6") {
-        setResult(numericHash.slice(0, 6));
+        generatedResult = numericHash.slice(0, 6);
       } else if (type === "pin8") {
-        setResult(numericHash.slice(0, 8));
+        generatedResult = numericHash.slice(0, 8);
       }
+      setResult(generatedResult);
       copyToClipboard();
     }
   };
 
   useEffect(() => {
     setResult("");
-  }, [name, domain, secret]);
+  }, [name, domain, secret, type]);
 
-  function copyToClipboard() {
+  const copyToClipboard = () => {
     navigator.clipboard.writeText(result);
-    if (type === "password") {
-      toast({
-        title: "Password copied to the clipboard",
-        description: "Use it wisely!",
-        variant: "success",
-      });
-    } else {
-      toast({
-        title: "Pin copied to the clipboard",
-        description: "Use it wisely!",
-        variant: "success",
-      });
-    }
-  }
+    toast({
+      title: `${
+        type === "password" ? "Password" : "Pin"
+      } copied to the clipboard`,
+      description: "Use it wisely!",
+      variant: "success",
+    });
+  };
 
   let entropyvalue = passwordStrength(secret).id * 33.33;
   let strongvalue = passwordStrength(secret).value;
@@ -196,7 +192,7 @@ export function Generation() {
                 />
 
                 <Button
-                  disabled={entropyvalue < 90}
+                  disabled={entropyvalue < 90 || result !== ""}
                   onClick={() => {
                     generatePassword();
                   }}
