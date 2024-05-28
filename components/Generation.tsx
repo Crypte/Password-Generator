@@ -63,7 +63,7 @@ export function Generation() {
         generatedResult = numericHash.slice(0, 8);
       }
       setResult(generatedResult);
-      copyToClipboard();
+      copyToClipboard(generatedResult);
     }
   };
 
@@ -71,8 +71,8 @@ export function Generation() {
     setResult("");
   }, [name, domain, secret, type]);
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(result);
+  function copyToClipboard(text: string) {
+    navigator.clipboard.writeText(text);
     toast({
       title: `${
         type === "password" ? "Password" : "Pin"
@@ -80,7 +80,7 @@ export function Generation() {
       description: "Use it wisely!",
       variant: "success",
     });
-  };
+  }
 
   let entropyvalue = passwordStrength(secret).id * 33.33;
   let strongvalue = passwordStrength(secret).value;
@@ -208,7 +208,7 @@ export function Generation() {
                         className="p-3"
                         disabled={entropyvalue < 90 || result === ""}
                         onClick={() => {
-                          copyToClipboard();
+                          copyToClipboard(result);
                         }}
                       >
                         <Copy className="h-4 w-4" />
