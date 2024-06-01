@@ -8,7 +8,7 @@ import { Button } from "./ui/button";
 export const Navbar = () => {
   return (
     <>
-      <header className="fixed w-full top-0 flex h-16 items-center gap-4 justify-between z-50 max-lg:bg-background">
+      <header className="fixed w-full top-0 flex h-16 items-center gap-4 justify-between z-50 max-lg:backdrop-blur-2xl">
         <div className="container flex justify-between items-center">
           <Link
             href="/"

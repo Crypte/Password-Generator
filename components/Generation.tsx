@@ -18,7 +18,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { passwordStrength } from "check-password-strength";
 import CryptoJS from "crypto-js";
-import { CircleUser, Copy, Globe, KeyRound } from "lucide-react";
+import { CircleUser, Copy, Globe, KeyRound, RotateCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FloatingBanner } from "./FloatingBanner";
 import { Badge } from "./ui/badge";
@@ -38,18 +38,19 @@ export function Generation() {
   const [name, setName] = useState("");
   const [domain, setDomain] = useState("");
   const [secret, setSecret] = useState("");
+  const [count, setCount] = useState(0);
   const [result, setResult] = useState("");
   const [type, setType] = useState("password");
   const { toast } = useToast();
 
   const generatePassword = () => {
     if (name && domain && secret && type) {
-      const hashedString = CryptoJS.PBKDF2(secret, `${name}${domain}`, {
+      const PBKDF2 = CryptoJS.PBKDF2(secret, `${name}${domain}`, {
         keySize: 256 / 32,
-        iterations: 100000,
+        iterations: 100000 + count,
       });
-      const encodedHexString = hashedString.toString(CryptoJS.enc.Hex);
-      const encodedBaseString = hashedString.toString(CryptoJS.enc.Base64);
+      const encodedHexString = PBKDF2.toString(CryptoJS.enc.Hex);
+      const encodedBaseString = PBKDF2.toString(CryptoJS.enc.Base64);
       const numericHash = encodedHexString.replace(/\D/g, "");
 
       let generatedResult = "";
@@ -69,7 +70,7 @@ export function Generation() {
 
   useEffect(() => {
     setResult("");
-  }, [name, domain, secret, type]);
+  }, [name, domain, secret, type, count]);
 
   function copyToClipboard(text: string) {
     navigator.clipboard.writeText(text);
@@ -106,29 +107,47 @@ export function Generation() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid w-full items-center gap-6">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Type</Label>
+          <div className="grid w-full items-center max-lg:gap-4 gap-6">
+            <div className="flex items-center space-x-3">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">Type</Label>
 
-              <Select
-                defaultValue="password"
-                onValueChange={(value) => setType(value)}
-              >
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="password">Password</SelectItem>
-                    <SelectItem value="pin4">Pin 4 digits</SelectItem>
-                    <SelectItem value="pin6">Pin 6 digits</SelectItem>
-                    <SelectItem value="pin8">Pin 8 digits</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+                <Select
+                  defaultValue="password"
+                  onValueChange={(value) => setType(value)}
+                >
+                  <SelectTrigger className="w-[130px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="password">Password</SelectItem>
+                      <SelectItem value="pin4">Pin 4 digits</SelectItem>
+                      <SelectItem value="pin6">Pin 6 digits</SelectItem>
+                      <SelectItem value="pin8">Pin 8 digits</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">Count</Label>
+
+                <Input
+                  min={0}
+                  className="w-[120px]"
+                  type="number"
+                  startIcon={RotateCcw}
+                  id="count"
+                  value={count}
+                  onChange={(e) => {
+                    setCount(parseInt(e.target.value));
+                  }}
+                  required
+                ></Input>
+              </div>
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Your Name</Label>
+              <Label htmlFor="name">Your name</Label>
 
               <Input
                 startIcon={CircleUser}
@@ -140,7 +159,7 @@ export function Generation() {
               />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="domain">The domain of the website</Label>
+              <Label htmlFor="domain">Domain of the website</Label>
               <Input
                 startIcon={Globe}
                 id="domain"
@@ -176,7 +195,7 @@ export function Generation() {
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="secret">Result</Label>
-              <div className="flex gap-2">
+              <div className="max-md:flex-col flex gap-2 max-md:space-y-1">
                 <Input
                   className="overflow-ellipsis"
                   id="result"
@@ -190,35 +209,37 @@ export function Generation() {
                     (e.target as HTMLInputElement).select();
                   }}
                 />
+                <div className="flex gap-2">
+                  <Button
+                    className="max-md:w-full"
+                    disabled={entropyvalue < 90 || result !== ""}
+                    onClick={() => {
+                      generatePassword();
+                    }}
+                  >
+                    Gen & Copy
+                  </Button>
 
-                <Button
-                  disabled={entropyvalue < 90 || result !== ""}
-                  onClick={() => {
-                    generatePassword();
-                  }}
-                >
-                  Gen & Copy
-                </Button>
-
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        size={"icon"}
-                        className="p-3"
-                        disabled={entropyvalue < 90 || result === ""}
-                        onClick={() => {
-                          copyToClipboard(result);
-                        }}
-                      >
-                        <Copy className="h-4 w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Copy to clipboard</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          size={"icon"}
+                          className="p-3"
+                          disabled={entropyvalue < 90 || result === ""}
+                          onClick={() => {
+                            copyToClipboard(result);
+                          }}
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Copy to clipboard</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
               </div>
             </div>
           </div>

@@ -1,4 +1,3 @@
-import { FloatingBanner } from "@/components/FloatingBanner";
 import { Generation } from "@/components/Generation";
 import { Navbar } from "@/components/Navbar";
 
