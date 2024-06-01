@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pass generator
 
-## Getting Started
+Pass Generator is a tool for generating passwords and PIN codes based on personal information and a secret code. It creates secure credentials using the PBKDF2 method to derive keys from a secret, a name, and a domain.
 
-First, run the development server:
+## Input
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Type : 4 choices
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Types        | Output                                                           |
+| ------------ | ---------------------------------------------------------------- |
+| Password     | 20 characters (lowercase, uppercase, number, special characters) |
+| Pin 4 digits | 4-digit pin                                                      |
+| Pin 6 digits | 6-digit pin                                                      |
+| Pin 8 digits | 8-digit pin                                                      |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Counter
+  The counter allows users to incrementally increase the number of iterations used in the PBKDF2 key derivation process, enhancing the complexity and security of the generated password or PIN. The minimum is set to 10000 iterations, and each additional count adds one more iteration. By adjusting the counter value, users can change the password for a site if needed, ensuring the ability to generate new credentials without altering the original name, domain, or secret.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Your name
+- Domain website
+- Secret
 
-## Learn More
+## Documentation
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Please visit : "...."
