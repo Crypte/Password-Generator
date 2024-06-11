@@ -14,7 +14,7 @@ export const FloatingBanner = () => {
   return (
     <div
       ref={bannerRef}
-      className="flex items-center justify-center gap-4 bg-indigo-600 px-4 py-2 text-white rounded-lg max-lg:hidden"
+      className="flex items-center justify-center gap-4 bg-gradient-to-tr from-[#1B3B7C] to-[#3d67bc] px-4 py-2 text-white rounded-lg max-lg:hidden"
     >
       <p className="text-sm font-medium">
         Be sure to be on : {""}

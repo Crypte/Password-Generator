@@ -95,8 +95,8 @@ export function Generation() {
   }
 
   return (
-    <div className="relative ">
-      <div className="absolute z-[-1] w-full h-full rounded-2xl bg-gradient-to-tl from-purple-600 to-red-400 blur-3xl dark:opacity-40 opacity-60 left-1/2 transform -translate-x-1/2" />
+    <div className="relative max-w-[550px] ">
+      <div className="absolute z-[-1] w-full h-full rounded-2xl bg-primary blur-3xl dark:opacity-20 opacity-20 left-1/2 transform -translate-x-1/2 " />
       <FloatingBanner />
       <Card className="mt-3">
         <CardHeader>
@@ -154,7 +154,9 @@ export function Generation() {
                 id="name"
                 placeholder="Eric Dupont"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
                 required
               />
             </div>
@@ -166,7 +168,7 @@ export function Generation() {
                 placeholder="google.com"
                 value={domain}
                 onChange={(e) => {
-                  setDomain(e.target.value);
+                  setDomain(e.target.value.toLowerCase());
                 }}
                 required
               ></Input>
@@ -180,7 +182,9 @@ export function Generation() {
                 placeholder="Y0urS3cret-c0de@"
                 type="password"
                 value={secret}
-                onChange={(e) => setSecret(e.target.value)}
+                onChange={(e) => {
+                  setSecret(e.target.value);
+                }}
                 required
               />
             </div>
@@ -193,9 +197,20 @@ export function Generation() {
                 </Badge>
               )}
             </div>
+            <div className="flex gap-2">
+              <Button
+                className="w-full h-12"
+                disabled={entropyvalue < 90 || result !== ""}
+                onClick={() => {
+                  generatePassword();
+                }}
+              >
+                Generate & Copy
+              </Button>
+            </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="secret">Result</Label>
-              <div className="max-md:flex-col flex gap-2 max-md:space-y-1">
+              <div className="flex gap-2">
                 <Input
                   className="overflow-ellipsis"
                   id="result"
@@ -209,37 +224,26 @@ export function Generation() {
                     (e.target as HTMLInputElement).select();
                   }}
                 />
-                <div className="flex gap-2">
-                  <Button
-                    className="max-md:w-full"
-                    disabled={entropyvalue < 90 || result !== ""}
-                    onClick={() => {
-                      generatePassword();
-                    }}
-                  >
-                    Gen & Copy
-                  </Button>
 
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          size={"icon"}
-                          className="p-3"
-                          disabled={entropyvalue < 90 || result === ""}
-                          onClick={() => {
-                            copyToClipboard(result);
-                          }}
-                        >
-                          <Copy className="h-4 w-4" />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Copy to clipboard</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size={"icon"}
+                        className="p-3"
+                        disabled={entropyvalue < 90 || result === ""}
+                        onClick={() => {
+                          copyToClipboard(result);
+                        }}
+                      >
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Copy to clipboard</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
           </div>
