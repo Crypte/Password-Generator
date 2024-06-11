@@ -96,7 +96,7 @@ export function Generation() {
 
   return (
     <div className="relative max-w-[550px] ">
-      <div className="absolute z-[-1] w-full h-full rounded-2xl bg-primary blur-3xl dark:opacity-20 opacity-20 left-1/2 transform -translate-x-1/2 " />
+      <div className=" dark:hidden absolute z-[-1] w-full h-full rounded-2xl bg-primary blur-3xl opacity-20 left-1/2 transform -translate-x-1/2 " />
       <FloatingBanner />
       <Card className="mt-3">
         <CardHeader>
