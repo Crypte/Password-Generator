@@ -32,7 +32,7 @@
     --input: 220 7% 82%;
     --ring: 221 24% 74%;
 
-    --radius: 0.5rem;
+    --radius: 0.7rem;
   }
 
   .dark {
@@ -60,7 +60,7 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 216 8% 12%;
+    --border: 220 6% 20%;
     --input: 217 9% 18%;
     --ring: 221 86% 40%;
   }

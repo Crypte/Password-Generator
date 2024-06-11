@@ -199,7 +199,7 @@ export function Generation() {
             </div>
             <div className="flex gap-2">
               <Button
-                className="w-full h-12"
+                className="w-full p-7 text-base"
                 disabled={entropyvalue < 90 || result !== ""}
                 onClick={() => {
                   generatePassword();
