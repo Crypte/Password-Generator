@@ -190,10 +190,14 @@ export function Generation() {
             </div>
             <div className="flex flex-col space-y-2">
               <Progress indicatorColor={progressColor} value={progressValue} />
-              {!secret && <Label htmlFor="secret"></Label>}
+              {!secret && (
+                <Badge variant={"outline"} className="w-fit">
+                  No Secret input
+                </Badge>
+              )}
               {secret && (
                 <Badge variant={"outline"} className="w-fit">
-                  {strongvalue}
+                  {strongvalue} secret
                 </Badge>
               )}
             </div>
