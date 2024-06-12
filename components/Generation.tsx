@@ -38,7 +38,7 @@ export function Generation() {
   const [name, setName] = useState("");
   const [domain, setDomain] = useState("");
   const [secret, setSecret] = useState("");
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   const [result, setResult] = useState("");
   const [type, setType] = useState("password");
   const { toast } = useToast();
@@ -133,7 +133,7 @@ export function Generation() {
                 <Label htmlFor="name">Count</Label>
 
                 <Input
-                  min={0}
+                  min={1}
                   className="w-[120px]"
                   type="number"
                   startIcon={RotateCcw}
