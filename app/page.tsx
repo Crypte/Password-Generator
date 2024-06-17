@@ -1,10 +1,8 @@
 import { Generation } from "@/components/Generation";
-import { Navbar } from "@/components/Navbar";
 
 export default function Home() {
   return (
     <>
-      <Navbar />
       <main className="container">
         <div className="flex flex-col items-center justify-center mt-16">
           <Generation />

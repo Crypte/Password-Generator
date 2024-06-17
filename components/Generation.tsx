@@ -231,7 +231,7 @@ export function Generation() {
                   startIcon={KeyRound}
                   value={result}
                   readOnly
-                  disabled={entropyvalue < 90 || result === ""}
+                  disabled={result === ""}
                   onFocus={(e) => {
                     (e.target as HTMLInputElement).select();
                   }}
@@ -243,7 +243,7 @@ export function Generation() {
                       <Button
                         size={"icon"}
                         className="p-3"
-                        disabled={entropyvalue < 90 || result === ""}
+                        disabled={result === ""}
                         onClick={() => {
                           copyToClipboard(result);
                         }}
