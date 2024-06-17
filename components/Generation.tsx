@@ -40,6 +40,7 @@ export function Generation() {
   const [secret, setSecret] = useState("");
   const [count, setCount] = useState(1);
   const [result, setResult] = useState("");
+  const [fieldcheck, setFieldcheck] = useState(false);
   const [type, setType] = useState("password");
   const { toast } = useToast();
 
@@ -70,6 +71,11 @@ export function Generation() {
 
   useEffect(() => {
     setResult("");
+    if (name && domain && secret && type) {
+      setFieldcheck(true);
+    } else {
+      setFieldcheck(false);
+    }
   }, [name, domain, secret, type, count]);
 
   function copyToClipboard(text: string) {
@@ -204,7 +210,9 @@ export function Generation() {
             <div className="flex gap-2">
               <Button
                 className="w-full p-7 text-base"
-                disabled={entropyvalue < 90 || result !== ""}
+                disabled={
+                  entropyvalue < 90 || result !== "" || fieldcheck === false
+                }
                 onClick={() => {
                   generatePassword();
                 }}
