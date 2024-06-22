@@ -71,7 +71,7 @@ export function Generation() {
 
   useEffect(() => {
     setResult("");
-    if (name && domain && secret && type) {
+    if (name && domain && secret && type && count >= 0) {
       setFieldcheck(true);
     } else {
       setFieldcheck(false);
