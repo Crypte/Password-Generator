@@ -18,7 +18,14 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { passwordStrength } from "check-password-strength";
 import CryptoJS from "crypto-js";
-import { CircleUser, Copy, Globe, KeyRound, RotateCcw } from "lucide-react";
+import {
+  CircleUser,
+  Copy,
+  Globe,
+  KeyRound,
+  Lock,
+  RotateCcw,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { FloatingBanner } from "./FloatingBanner";
 import { Badge } from "./ui/badge";
@@ -228,7 +235,7 @@ export function Generation() {
                   id="result"
                   placeholder="Complete to generate"
                   type="password"
-                  startIcon={KeyRound}
+                  startIcon={Lock}
                   value={result}
                   readOnly
                   disabled={result === ""}

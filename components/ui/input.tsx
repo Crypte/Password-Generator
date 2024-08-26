@@ -11,7 +11,7 @@ export interface InputProps
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, startIcon, endIcon, urllogo, ...props }, ref) => {
-    const StartIcon = startIcon;
+    const StartIcon = startIcon || React.Fragment;
     const EndIcon = endIcon;
     const [show, setShow] = React.useState(false);
 
@@ -19,7 +19,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       return (
         <div className="w-full relative">
           <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-            <Lock size={18} className="text-muted-foreground" />
+            <StartIcon size={18} className="text-muted-foreground" />
           </div>
           <input
             autoComplete="off"
