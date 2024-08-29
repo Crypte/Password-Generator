@@ -3,7 +3,8 @@ import { ThemeProvider } from "@/components/Theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
-import "./globals.css";
+import "../../app/globals.css";
+import { I18nProviderClient } from "../locales/client";
 
 import { cn } from "@/lib/utils";
 
@@ -19,24 +20,28 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params: { locale },
 }: Readonly<{
   children: React.ReactNode;
+  params: { locale: string };
 }>) {
   return (
     <html lang="en">
       <body
         className={cn("bg-background font-sans antialiased", fontSans.variable)}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navbar />
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <I18nProviderClient locale={locale}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </I18nProviderClient>
       </body>
     </html>
   );

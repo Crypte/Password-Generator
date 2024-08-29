@@ -32,6 +32,8 @@ import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
+import { useI18n, useScopedI18n } from "../app/locales/client";
+
 import {
   Select,
   SelectContent,
@@ -42,6 +44,9 @@ import {
 } from "@/components/ui/select";
 
 export function Generation() {
+  const t = useI18n();
+  const scopeg = useScopedI18n("generator");
+
   const [name, setName] = useState("");
   const [domain, setDomain] = useState("");
   const [secret, setSecret] = useState("");
@@ -113,18 +118,14 @@ export function Generation() {
       <FloatingBanner />
       <Card className="mt-3">
         <CardHeader>
-          <CardTitle>Pass Generator</CardTitle>
-          <CardDescription>
-            Generate a credential based on your secret code, your name and the
-            domain of the website
-          </CardDescription>
+          <CardTitle>{scopeg("title")}</CardTitle>
+          <CardDescription>{scopeg("description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center max-lg:gap-4 gap-6">
             <div className="flex items-center space-x-3">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Type</Label>
-
+                <Label htmlFor="type">{scopeg("type.label")}</Label>
                 <Select
                   defaultValue="password"
                   onValueChange={(value) => setType(value)}
@@ -134,10 +135,18 @@ export function Generation() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="password">Password</SelectItem>
-                      <SelectItem value="pin4">Pin 4 digits</SelectItem>
-                      <SelectItem value="pin6">Pin 6 digits</SelectItem>
-                      <SelectItem value="pin8">Pin 8 digits</SelectItem>
+                      <SelectItem value="password">
+                        {scopeg("type.password")}
+                      </SelectItem>
+                      <SelectItem value="pin4">
+                        {scopeg("type.pin4")}
+                      </SelectItem>
+                      <SelectItem value="pin6">
+                        {scopeg("type.pin6")}
+                      </SelectItem>
+                      <SelectItem value="pin8">
+                        {scopeg("type.pin8")}
+                      </SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>

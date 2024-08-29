@@ -1,7 +1,6 @@
 "use client";
 import { Menu, Package2 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { ThemeSwitch } from "./Theme-switch";
@@ -10,16 +9,9 @@ import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 export const Navbar = () => {
-  const router = usePathname();
-  const isHome = router === "/";
-
   return (
     <>
-      <header
-        className={`fixed w-full top-0 flex h-16 items-center gap-4 justify-between z-50 ${
-          isHome ? "" : "border-b bg-background"
-        }`}
-      >
+      <header className="fixed w-full top-0 flex h-16 items-center gap-4 justify-between z-50">
         <div className="container flex justify-between items-center">
           <Link
             href="/"

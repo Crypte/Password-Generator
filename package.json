@@ -29,6 +29,7 @@
     "fast-password-entropy": "^1.1.1",
     "lucide-react": "^0.379.0",
     "next": "14.2.3",
+    "next-international": "^1.2.4",
     "next-themes": "^0.3.0",
     "passwd-strength": "^1.1.1",
     "pbkdf2": "^3.1.2",
