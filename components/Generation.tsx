@@ -130,7 +130,7 @@ export function Generation() {
                   defaultValue="password"
                   onValueChange={(value) => setType(value)}
                 >
-                  <SelectTrigger className="w-[130px]">
+                  <SelectTrigger className="w-[150px]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -152,7 +152,7 @@ export function Generation() {
                 </Select>
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Count</Label>
+                <Label htmlFor="name">{scopeg("count")}</Label>
 
                 <Input
                   min={1}
@@ -169,12 +169,12 @@ export function Generation() {
               </div>
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Your name</Label>
+              <Label htmlFor="name"> {scopeg("name.label")}</Label>
 
               <Input
                 startIcon={CircleUser}
                 id="name"
-                placeholder="Eric Dupont"
+                placeholder={scopeg("name.placeholder")}
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
@@ -183,11 +183,11 @@ export function Generation() {
               />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="domain">Domain of the website</Label>
+              <Label htmlFor="domain">{scopeg("domain.label")}</Label>
               <Input
                 startIcon={Globe}
                 id="domain"
-                placeholder="google.com"
+                placeholder={scopeg("domain.placeholder")}
                 value={domain}
                 onChange={(e) => {
                   setDomain(e.target.value.toLowerCase());
@@ -197,11 +197,11 @@ export function Generation() {
             </div>
 
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="secret">Your secret code</Label>
+              <Label htmlFor="secret">{scopeg("secret.label")}</Label>
               <Input
                 startIcon={KeyRound}
                 id="secret"
-                placeholder="Y0urS3cret-c0de@"
+                placeholder={scopeg("secret.placeholder")}
                 type="password"
                 value={secret}
                 onChange={(e) => {
@@ -214,7 +214,7 @@ export function Generation() {
               <Progress indicatorColor={progressColor} value={progressValue} />
               {!secret && (
                 <Badge variant={"outline"} className="w-fit">
-                  No Secret input
+                  {scopeg("complexity.noinput")}
                 </Badge>
               )}
               {secret && (
@@ -233,16 +233,16 @@ export function Generation() {
                   generatePassword();
                 }}
               >
-                Generate & Copy
+                {scopeg("generate")}
               </Button>
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="secret">Result</Label>
+              <Label htmlFor="secret"> {scopeg("result.label")}</Label>
               <div className="flex gap-2">
                 <Input
                   className="overflow-ellipsis"
                   id="result"
-                  placeholder="Complete to generate"
+                  placeholder={scopeg("result.placeholder")}
                   type="password"
                   startIcon={Lock}
                   value={result}
@@ -267,9 +267,7 @@ export function Generation() {
                         <Copy className="h-4 w-4" />
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Copy to clipboard</p>
-                    </TooltipContent>
+                    <TooltipContent>{scopeg("result.tooltip")}</TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
               </div>

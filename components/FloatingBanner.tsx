@@ -1,10 +1,12 @@
 "use client";
 
+import { useScopedI18n } from "@/app/locales/client";
 import { CircleAlert, XIcon } from "lucide-react";
 import { useRef } from "react";
 
 export const FloatingBanner = () => {
   const bannerRef = useRef<HTMLDivElement>(null);
+  const scopew = useScopedI18n("warning");
 
   const handleDismiss = () => {
     if (bannerRef.current) {
@@ -19,7 +21,7 @@ export const FloatingBanner = () => {
     >
       <CircleAlert color="#FFA500" className="h-8 w-8" />
       <p className="text-sm font-medium text-center">
-        Be sure to be on the right url: {""}
+        {scopew("message")}: {""}
         <a
           href="https://password-generator-seven-lac.vercel.app/"
           className="inline-block underline"

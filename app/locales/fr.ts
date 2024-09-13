@@ -9,16 +9,16 @@ export default {
     type: {
       label: "Type",
       password: "Mot de passe",
-      pin4: "PIN à 4 chiffres",
-      pin6: "PIN à 6 chiffres",
-      pin8: "PIN à 8 chiffres",
+      pin4: "PIN (4)",
+      pin6: "PIN (6)",
+      pin8: "PIN (8)",
     },
-    count: "Nombre",
+    count: "Itérations",
     name: {
       label: "Votre nom",
       placeholder: "Eric Dupont",
     },
-    Domain: {
+    domain: {
       label: "Domaine",
       placeholder: "google.com",
     },
@@ -27,7 +27,7 @@ export default {
       placeholder: "VotreS3cret-C0de@",
     },
     complexity: {
-      noinput: "Aucune saisie de code secret",
+      noinput: "Aucune saisie",
       weak: "Faible",
       medium: "Moyen",
       strong: "Fort",
@@ -36,6 +36,13 @@ export default {
     result: {
       label: "Résultat",
       placeholder: "Complétez pour générer",
+      tooltip: "Copier dans le presse-papiers",
+    },
+
+    toast: {
+      pincopied: "",
+      passwordcopied: "",
+      warning: "",
     },
   },
 } as const;

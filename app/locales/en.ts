@@ -9,16 +9,16 @@ export default {
     type: {
       label: "Type",
       password: "Password",
-      pin4: "Pin 4 digits",
-      pin6: "Pin 6 digits",
-      pin8: "Pin 8 digits",
+      pin4: "PIN (4)",
+      pin6: "PIN (6)",
+      pin8: "PIN (8)",
     },
     count: "Count",
     name: {
       label: "Your name",
       placeholder: "Eric Dupont",
     },
-    Domain: {
+    domain: {
       label: "Domain",
       placeholder: "google.com",
     },
@@ -36,6 +36,12 @@ export default {
     result: {
       label: "Result",
       placeholder: "Complete to generate",
+      tooltip: "Copy to clipboard",
+    },
+    toast: {
+      pincopied: "",
+      passwordcopied: "",
+      warning: "",
     },
   },
 } as const;
